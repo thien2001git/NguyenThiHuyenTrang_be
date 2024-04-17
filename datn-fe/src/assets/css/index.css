@@ -96,16 +96,18 @@ input:focus {
     border-radius: var(--border-radius);
 }
 
-.mini-card{
+.mini-card {
     padding: 15px;
     margin-bottom: 30px;
     background-color: var(--main-bg);
     box-shadow: var(--box-shadow);
     border-radius: var(--border-radius);
 }
-.mini-card li{
+
+.mini-card li {
     font-size: 24;
 }
+
 .full-height {
     height: 100%;
 }
@@ -173,18 +175,18 @@ input:focus {
 .mini-item.active {
     border-radius: var(--border-radius);
     background-image: linear-gradient(
-        to right,
-        var(--main-color),
-        var(--second-color)
+            to right,
+            var(--main-color),
+            var(--second-color)
     );
     color: var(--txt-white);
 }
 
-.mini-ul{
+.mini-ul {
     margin-right: 20%;
 }
 
-.mini-img{
+.mini-img {
     margin-left: 10%;
 }
 
@@ -193,11 +195,12 @@ input:focus {
     background-color: lightgoldenrodyellow;
     color: var(--txt-red);
 }
+
 .table td, th {
-    text-align: center;   
- }
- label{
-    text-transform: uppercase;
-    font-weight: 700;
+    text-align: center;
+}
+
+label {
+    font-weight: bold;
     color: #676767;
-  }
+}

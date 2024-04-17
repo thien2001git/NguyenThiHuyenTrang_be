@@ -1,6 +1,5 @@
 package com.poly.datn.be.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,8 +7,6 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Date;
 
 @Entity
 @Table(name = "account_detail")

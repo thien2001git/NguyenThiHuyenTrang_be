@@ -40,34 +40,10 @@ const Header = (props) => {
     props.searchHandler(e.target.keyword.value);
     history.push("/search-page");
   };
-
-  const curr_user = {
-    display_name: props.user ? props.user.fullName : "Tài khoản",
-    image: user_image,
-  };
-
-  const renderUserToggle = (user) => (
-    <div className="topnav__right-user">
-      <div className="topnav__right-user__image">
-        <img src={user.image} alt=""/>
-      </div>
-      <div className="topnav__right-user__name">{user.display_name}</div>
-    </div>
-  );
-
-  const renderUserMenu = (item, index) => (
-    <NavLink
-      to={item.url}
-      key={index}
-      exact
-      onClick={item.url === "/" ? signOutHandler : ""}
-    >
-      <div className="notification-item">
-        <i className={item.icon}></i>
-        <span>{item.content}</span>
-      </div>
-    </NavLink>
-  );
+  const user = {
+    username: localStorage.getItem("username"),
+    password: localStorage.getItem("password"),
+  }
 
   const signOutHandler = () => {
     props.refresh(false);
@@ -78,22 +54,20 @@ const Header = (props) => {
     props.userHandler(null);
   };
 
-  var style = `
-
-`
+  var accountDrop = <div><a href={"/register"}>Đăng ký</a> | <a href={"/sign-in"}>Đăng nhập</a></div>
+  if (user.username != null) {
+    accountDrop = <div><a href={"/profile"}>Tài khoản</a> | <a href={"/"} onClick={signOutHandler}>Đăng xuất</a></div>
+  }
   return (
     <>
-      <style>
-        {style}
-      </style>
       <div className="mini-card">
         {/* Navigation */}
         <nav className="navbar navbar-expand-md col-12">
           <div className="navbar-brand ml-1 col">
             <img src={logo} width={50} height={50} alt=""/>
           </div>
-          <div className="collapse navbar-collapse col">
-            <ul className="navbar-nav mini-ul">
+          <div className="collapse navbar-collapse col" style={{justifyContent: 'space-between'}}>
+            <ul className="navbar-nav">
               <li
                 className={
                   props.header === 1
@@ -180,33 +154,11 @@ const Header = (props) => {
                 <i
                   className={"fa fa-search"}
                   aria-hidden="true"
-                  style={{fontSize: "24px"}}
+                  style={{fontSize: "16px"}}
                 ></i>
               </button>
             </form>
-            {/* {props.user && (
-    <Dropdown
-      customToggle={() => renderUserToggle(curr_user)}
-      contentData={user_menu}
-      renderItems={(item, index) => renderUserMenu(item, index)}
-    />
-    )}
-    {!props.user && (
-    <Dropdown
-      customToggle={() => renderUserToggle(curr_user)}
-      contentData={not_menu}
-      renderItems={(item, index) => renderUserMenu(item, index)}
-    />
-    )} */}
-            {props.user ? <Dropdown
-              customToggle={() => renderUserToggle(curr_user)}
-              contentData={user_menu}
-              renderItems={(item, index) => renderUserMenu(item, index)}
-            /> : <Dropdown
-              customToggle={() => renderUserToggle(curr_user)}
-              contentData={not_menu}
-              renderItems={(item, index) => renderUserMenu(item, index)}
-            />}
+            {accountDrop}
           </div>
         </nav>
       </div>

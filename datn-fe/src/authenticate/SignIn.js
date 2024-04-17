@@ -20,8 +20,8 @@ const SignIn = (props) => {
         localStorage.setItem("token", res.data.accessToken);
         getMe(res.data.accessToken)
           .then((res) => {
-            props.userHandler(res.data);
             localStorage.setItem("username", res.data.username);
+            localStorage.setItem("userid", res.data.id);
             localStorage.setItem("password", "123456");
           })
           .catch((error) => console.log(error));

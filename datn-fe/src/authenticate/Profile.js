@@ -1,27 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import "./register.css";
-import { useHistory } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
+import {useHistory} from "react-router-dom";
+import {useForm} from "react-hook-form";
+import {toast} from "react-toastify";
 import {getAccountDetailByAccountId, updatepProfile, getByUsername} from '../api/AccountApi';
 
 const Profile = (props) => {
   const history = useHistory();
   const [flag, setFlag] = useState();
+  const [userInfor, setUserInfor] = useState({fullname: "", gender: ""})
 
-  useEffect(() =>{
-    getAccountDetailByAccountId(props.user.id)
-    .then((res) =>{
-      reset(res.data);
-      setFlag(res.data);
-    })
-    .catch((error) => console.log(error));
+  useEffect(() => {
+    getAccountDetailByAccountId(localStorage.getItem("userid"))
+      .then((res) => {
+        console.log(res.data)
+        setUserInfor(res.data)
+        reset(res.data);
+        setFlag(res.data);
+      })
+      .catch((error) => console.log(error));
   }, []);
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: {errors},
     reset
   } = useForm();
 
@@ -36,10 +39,10 @@ const Profile = (props) => {
         toast.success("Cập nhật thông tin thành công!");
         props.refresh(false);
         getByUsername(props.user.username)
-        .then((res) => {
-          props.userHandler(res.data)
-        })
-        .catch((error) => console.log(error))
+          .then((res) => {
+            props.userHandler(res.data)
+          })
+          .catch((error) => console.log(error))
         history.push("/");
       })
       .catch((error) => toast.error(error.response.data.Errors));
@@ -47,13 +50,13 @@ const Profile = (props) => {
   return (
     <div>
       {" "}
-      <section className="vh-100 gradient-custom">
+      <section className="vh-100">
         <div className="container py-5 h-100">
           <div className="row justify-content-center align-items-center h-100">
             <div className="col-12 col-lg-9 col-xl-7">
               <div
-                className="card bg-dark text-white"
-                style={{ borderRadius: "15px" }}
+                className="card "
+                style={{borderRadius: "15px"}}
               >
                 <div className="card-body p-4 p-md-5">
                   <h3 className="mb-4 pb-2 pb-md-0 mb-md-5 text-center">
@@ -66,6 +69,9 @@ const Profile = (props) => {
                     <div className="row">
                       <div className="col-md-12 mb-4 d-flex align-items-center">
                         <div className="form-outline datepicker w-100">
+                          <label htmlFor="birthdayDate" className="form-label">
+                            Họ tên
+                          </label>
                           <input
                             type="text"
                             className="form-control form-control-lg"
@@ -75,9 +81,6 @@ const Profile = (props) => {
                               pattern: /^\s*\S+.*/,
                             })}
                           />
-                          <label htmlFor="birthdayDate" className="form-label">
-                            Họ tên
-                          </label>
                           {errors.fullName && (
                             <div className="alert alert-danger" role="alert">
                               Họ tên không hợp lệ!
@@ -128,6 +131,9 @@ const Profile = (props) => {
                     <div className="row">
                       <div className="col-md-12 mb-4 pb-2">
                         <div className="form-outline">
+                          <label className="form-label" htmlFor="emailAddress">
+                            Email
+                          </label>
                           <input
                             type="text"
                             id="emailAddress"
@@ -138,9 +144,6 @@ const Profile = (props) => {
                                 /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                             })}
                           />
-                          <label className="form-label" htmlFor="emailAddress">
-                            Email
-                          </label>
                           {errors.email && (
                             <div className="alert alert-danger" role="alert">
                               Email không hợp lệ!
@@ -150,6 +153,9 @@ const Profile = (props) => {
                       </div>
                       <div className="col-md-12 mb-4 pb-2">
                         <div className="form-outline">
+                          <label className="form-label" htmlFor="phoneNumber">
+                            Số điện thoại
+                          </label>
                           <input
                             type="tel"
                             id="phoneNumber"
@@ -159,9 +165,7 @@ const Profile = (props) => {
                               pattern: /^0[0-9]{9}$/,
                             })}
                           />
-                          <label className="form-label" htmlFor="phoneNumber">
-                            Số điện thoại
-                          </label>
+
                           {errors.phone && (
                             <div className="alert alert-danger" role="alert">
                               Số điện thoại không hợp lệ!
@@ -173,19 +177,20 @@ const Profile = (props) => {
 
                     <div className="row">
                       <div className="col-12">
+                        <label className="form-label select-label">
+                          Địa chỉ
+                        </label>
                         <textarea
+                          className={"form-control"}
                           name=""
                           id=""
                           cols="62"
                           rows="5"
-                          {...register("address", { required: false })}
+                          {...register("address", {required: false})}
                         ></textarea>
-                        <label className="form-label select-label">
-                          Địa chỉ
-                        </label>
                       </div>
                     </div>
-                    <div className="mt-4 pt-2 mb-3">
+                    <div className="mt-4 pt-2 mb-3" style={{display: "flex", justifyContent:"right"}}>
                       <button className="btn btn-primary btn-lg" type="submit">
                         Cập nhật
                       </button>
