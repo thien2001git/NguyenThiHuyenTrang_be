@@ -64,7 +64,9 @@ const Header = (props) => {
         {/* Navigation */}
         <nav className="navbar navbar-expand-md col-12">
           <div className="navbar-brand ml-1 col">
-            <img src={logo} width={50} height={50} alt=""/>
+            <NavLink to={"/"}>
+              <img src={logo} width={50} height={50} alt=""/>
+            </NavLink>
           </div>
           <div className="collapse navbar-collapse col" style={{justifyContent: 'space-between'}}>
             <ul className="navbar-nav">
