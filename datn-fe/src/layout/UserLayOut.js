@@ -218,40 +218,6 @@ const UserLayOut = () => {
       </Switch>
       <Footer></Footer>
       <ToastContainer></ToastContainer>
-
-      <div id="scroll">
-        <Button variant="primary" onClick={handleShow}>
-          Hướng dẫn chọn size
-        </Button>
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Hướng dẫn chọn size</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Nhập chiều dài bàn chân(mm)</Form.Label>
-                <Form.Control
-                  type="number"
-                  min={220}
-                  max={320}
-                  autoFocus
-                  onChange={changeSizeHandler}
-                />
-                {size && <Form.Label className="ml-1 mt-3">{size}</Form.Label>}
-              </Form.Group>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                  Đóng
-                </Button>
-              </Modal.Footer>
-            </Form>
-          </Modal.Body>
-        </Modal>
-      </div>
     </div>
   );
 };
