@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @CrossOrigin("*")
@@ -28,6 +29,25 @@ public class LikeApi {
 
     @Autowired
     ProductRepo productRepo;
+
+    @PostMapping("/api/site/like/count")
+    public ResponseEntity<Integer> count(@RequestBody LikeRequest likeRequest) {
+        int res = 0;
+        try {
+            Product product = productRepo.findById(Long.parseLong(likeRequest.getProduct_id())).get();
+            List<Like> l = likeRepo.findAll();
+            for (Like like : l) {
+                if (Objects.equals(like.getProduct().getId(), product.getId())) {
+                    ++res;
+                }
+            }
+            System.out.println(String.format("LikeApi count %s %s", likeRequest.getProduct_id(), res));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return ResponseEntity.badRequest().body(0);
+        }
+        return ResponseEntity.ok(res);
+    }
 
     @PostMapping("/api/site/like/add")
     public ResponseEntity<String> insert(@RequestBody LikeRequest likeRequest) {
@@ -68,9 +88,9 @@ public class LikeApi {
         System.out.println("LikeApi check " + likeRequest.toString());
         try {
             List<Like> likeList = likeRepo.findAll();
-            for(Like like: likeList) {
-                if(like.getAccount().getId() == Long.parseLong(likeRequest.getUser_id())) {
-                    if(like.getProduct().getId() == Long.parseLong(likeRequest.getProduct_id())) {
+            for (Like like : likeList) {
+                if (like.getAccount().getId() == Long.parseLong(likeRequest.getUser_id())) {
+                    if (like.getProduct().getId() == Long.parseLong(likeRequest.getProduct_id())) {
                         return ResponseEntity.ok(true);
                     }
                 }

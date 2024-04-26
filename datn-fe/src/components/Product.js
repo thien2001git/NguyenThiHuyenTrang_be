@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { getAllProducts, filterProducts } from "../api/ProductApi";
-import { NavLink } from "react-router-dom";
+import React, {useState, useEffect} from "react";
+import {getAllProducts, filterProducts} from "../api/ProductApi";
+import {NavLink} from "react-router-dom";
 import "./sidebar/sidebar.css";
 import {ProductItem} from "./Home";
 
@@ -122,6 +122,7 @@ const defaultBrand = [1, 2, 3, 4, 5, 6, 7];
 const defaultCategory = [1, 2, 3, 4, 5, 6, 7];
 
 const Product = (props) => {
+  const [isFirst, setIsFirst] = useState(true);
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState({});
@@ -143,14 +144,47 @@ const Product = (props) => {
     </li>
   ));
 
+  const chooseBrandHandler = (value) => {
+    const index = brand.indexOf(value);
+    console.log(value, index)
+    if (index > -1) {
+      setBrand(brand.filter((i) => i !== value));
+    } else {
+      setBrand([value]);
+    }
+    onChangePage(1);
+  };
+
   useEffect(() => {
+    if (isFirst) {
+      setIsFirst(false)
+      var zz = -1
+      switch (localStorage.getItem("brand")) {
+        case "addidas":
+          zz = 4
+          break
+        case "nike":
+          zz = 3
+          break
+        case "puma":
+          zz = 1
+          break
+        case "fila":
+          zz = 5
+          break
+      }
+      console.log("zz", zz)
+      if(zz !== -1) {
+        setBrand([zz])
+        chooseBrandHandler(zz)
+      }
+    }
     if (category.length === 0 && brand.length === 0 && price.length === 0) {
       getAllProducts(page, count, true).then((response) => {
         setProducts(response.data.content);
         setTotal(response.data.totalPages);
       });
     } else {
-      console.log(false);
       const data = {
         page: page,
         count: count,
@@ -176,17 +210,7 @@ const Product = (props) => {
     if (index > -1) {
       setCategory(category.filter((i) => i !== value));
     } else {
-      setCategory([...category, value]);
-    }
-    onChangePage(1);
-  };
-
-  const chooseBrandHandler = (value) => {
-    const index = brand.indexOf(value);
-    if (index > -1) {
-      setBrand(brand.filter((i) => i !== value));
-    } else {
-      setBrand([...brand, value]);
+      setCategory([value]);
     }
     onChangePage(1);
   };
@@ -199,7 +223,7 @@ const Product = (props) => {
       setPrice(price.filter((i) => i !== value));
     } else {
       temp = [...price, value];
-      setPrice([...price, value]);
+      setPrice([value]);
     }
     if (temp.length > 0) {
       temp.sort();
