@@ -62,6 +62,7 @@ public class OrderServiceImpl implements OrderService {
             voucherService.saveVoucher(voucher);
             order.setVoucher(voucher);
         }
+        System.out.println("xxxx" + order.getAddress());
         order = orderRepo.save(order);
         order.setEncodeUrl(Base64.getUrlEncoder().encodeToString(String.valueOf(order.getId()).getBytes()));
         order = orderRepo.save(order);
