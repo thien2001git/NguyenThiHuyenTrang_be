@@ -11,6 +11,7 @@ import java.util.List;
 
 public interface CategoryService {
     Page<Category> findAll(Pageable pageable);
+    List<Category> findAllOrg();
     Category findById(Long id);
     Category saveCategory(Category category);
     Category updateCategory(Category category);

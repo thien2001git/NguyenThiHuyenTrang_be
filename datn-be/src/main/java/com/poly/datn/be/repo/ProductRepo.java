@@ -1,5 +1,6 @@
 package com.poly.datn.be.repo;
 
+import com.poly.datn.be.domain.dto.MyResponseProductDto;
 import com.poly.datn.be.domain.dto.RespProductDto;
 import com.poly.datn.be.domain.dto.ResponseProductDto;
 import com.poly.datn.be.entity.Product;
@@ -29,6 +30,14 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
     ResponseProductDto getProductDetail(@Param("size") Integer size,
                                         @Param("name") String name,
                                         @Param("id") Long id);
+
+    @Query("SELECT new com.poly.datn.be.domain.dto.MyResponseProductDto(p.id, p.name, p.code, p.description, p.view, a.price, i.imageLink, p.brand.name, p.sale.discount, p.isActive, pc.category.name) FROM Product p " +
+            "inner join Attribute a on p.id = a.product.id " +
+            "inner join Image i on p.id = i.product.id " +
+            "inner join ProductCategory pc on p.id = pc.product.id where p.isActive = true"
+    )
+    List<MyResponseProductDto> getAll();
+
     @Query("SELECT new com.poly.datn.be.domain.dto.ResponseProductDto(p.id, p.name, p.code, p.description, p.view, a.price, i.imageLink, p.brand.name, p.sale.discount, p.isActive) FROM Product p " +
             "inner join Attribute a on p.id = a.product.id " +
             "inner join Image i on p.id = i.product.id where a.size = :size and i.name = :name and p.isActive = :active and p.brand.id = :brand and p.id <> :id")

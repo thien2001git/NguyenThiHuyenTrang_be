@@ -31,7 +31,7 @@ public class ProductApi {
                                                      @RequestParam("active") Optional<Boolean> active) {
         Sort sort = Sort.by(Sort.Direction.DESC, "modifyDate");
         Pageable pageable = PageRequest.of(page.orElse(1) - 1, size.orElse(8), sort);
-        return new ResponseEntity<>(productService.getProducts(active.orElse(true), pageable), HttpStatus.OK);
+        return new ResponseEntity<>(productService.getAll(), HttpStatus.OK);
     }
     @GetMapping(ProductConst.API_PRODUCT_RELATE)
     public ResponseEntity<?> relateProduct(@RequestParam("relate") Long brand, @RequestParam("id") Long id) {

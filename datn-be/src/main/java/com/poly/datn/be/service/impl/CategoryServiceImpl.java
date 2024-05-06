@@ -43,6 +43,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public List<Category> findAllOrg() {
+        return categoryRepo.findAll();
+    }
+
+    @Override
     public Category findById(Long id) {
         return categoryRepo.findById(id).orElse(null);
     }

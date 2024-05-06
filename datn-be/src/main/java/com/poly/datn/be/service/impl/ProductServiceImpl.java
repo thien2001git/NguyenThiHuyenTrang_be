@@ -236,4 +236,9 @@ public class ProductServiceImpl implements ProductService {
     public ResponseProductDto getProductDetail(Long id) {
         return productRepo.getProductDetail(ProductConst.PRODUCT_AVG_SIZE, ProductConst.PRODUCT_MAIN_IMAGE, id);
     }
+
+    @Override
+    public List<MyResponseProductDto> getAll() {
+        return productRepo.getAll();
+    }
 }
