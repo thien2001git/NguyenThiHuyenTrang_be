@@ -6,31 +6,31 @@ import {ProductItem} from "./Home";
 
 const categories = [
   {
-    display_name: "Giày nam",
+    display_name: "Nam",
     value: "1",
   },
   {
-    display_name: "Giày nữ",
+    display_name: "Nữ",
     value: "2",
   },
   {
-    display_name: "Giày trẻ em",
+    display_name: "Trẻ em",
     value: "3",
   },
   {
-    display_name: "Giày đá bóng",
+    display_name: "Đá bóng",
     value: "4",
   },
   {
-    display_name: "Giày thời trang",
+    display_name: "Thời trang",
     value: "5",
   },
   {
-    display_name: "Giày bóng rổ",
+    display_name: "Bóng rổ",
     value: "6",
   },
   {
-    display_name: "Giày chạy bộ",
+    display_name: "Chạy bộ",
     value: "7",
   },
 ];
@@ -122,10 +122,14 @@ export default class Product extends React.Component {
     const {page} = this.state;
     getAllProducts(page, count, true).then((response) => {
       const safe = []
+      const safe_ = new Set();
       response.data.forEach((it, id) => {
         try {
           require(`../static/images/${it.image}`)
-          safe.push(it)
+          if (!safe_.has(it.id)) {
+            safe_.add(it.id)
+            safe.push(it)
+          }
         } catch (ex) {
           if (localStorage.getItem("isLog") === "true") {
             console.log("not load ", it.image)
@@ -148,6 +152,7 @@ export default class Product extends React.Component {
     var {allProducts, products} = this.state
     var {brand, category, price, page} = myState
     var safe = []
+    const safe_ = new Set();
     if (allProducts !== undefined) {
       for (let i = 0; i < allProducts.length; i++) {
         const it = allProducts[i]
@@ -155,7 +160,10 @@ export default class Product extends React.Component {
         const checkCategory = category !== -1 && it.category.toLowerCase() === category.display_name.toLowerCase();
         const checkPrice = price !== -1 && price.min <= it.price && it.price <= price.max
         if (checkBrand || checkCategory || checkPrice) {
-          safe.push(it)
+          if (!safe_.has(it.id)) {
+            safe_.add(it.id)
+            safe.push(it)
+          }
         }
       }
 
@@ -265,30 +273,6 @@ export default class Product extends React.Component {
                     ))}
                   </ul>
                 </div>
-                <div className="col mini-card">
-                  <h4 className="text-danger fw-bolder">Loại sản phẩm</h4>
-                  <ul className="list-group">
-                    {categories.map((item, index) => (
-                      <div
-                        className="sidebar__item"
-                        key={index}
-                        onClick={this.chooseCategoryHandler.bind(this, item)}
-                      >
-                        <div
-                          className={
-                            category === item
-                              ? `sidebar__item-inner active`
-                              : `sidebar__item-inner`
-                          }
-                        >
-                          <i className={"bx bx-category-alt"}></i>
-                          <span>{item.display_name}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </ul>
-                </div>
-
                 <div className="col mt-3 mini-card">
                   <h4 className="text-danger fw-bolder">Giá</h4>
                   <ul className="list-group">
