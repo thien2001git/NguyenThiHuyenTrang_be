@@ -171,10 +171,12 @@ export default class Product extends React.Component {
         safe = allProducts
       }
       console.log("safe", safe)
+      console.log("page", page)
+      const page_ = page - 1
       if (products.left !== -1) {
-        products = {left: -1, right: safe.slice(12 * page, 12 * page + 12)}
+        products = {left: -1, right: safe.slice(12 * page_, 12 * page_ + 12)}
       } else {
-        products = {left: safe.slice(12 * page, 12 * page + 12), right: -1}
+        products = {left: safe.slice(12 * page_, 12 * page_ + 12), right: -1}
       }
       this.setState({
         category: category,
