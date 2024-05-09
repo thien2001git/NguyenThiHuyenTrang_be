@@ -56,7 +56,8 @@ const Header = (props) => {
 
   var accountDrop = <div><a href={"/register"}>Đăng ký</a> | <a href={"/sign-in"}>Đăng nhập</a></div>
   if (user.username != null) {
-    accountDrop = <div><a href={"/profile"}>Tài khoản</a> | <a href={"/"} onClick={signOutHandler}>Đăng xuất</a></div>
+    accountDrop = <div><a href={"/profile"}>Tài khoản</a> | <a href={"/"} onClick={signOutHandler}>Đăng xuất</a> | <a
+      href={"/don-hang"}>Đơn hàng</a></div>
   }
   return (
     <>

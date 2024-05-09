@@ -8653,6 +8653,7 @@ const Checkout = (props) => {
   };
   const onLoadDistrictHandler = (id) => {
     const resp = info[id - 1]
+    localStorage.setItem("provine", `${resp.name}`)
     const listHuyen = [];
     for (let i = 0; i < huyen.data.nItems; i++) {
       const it = huyen.data.data[i]
@@ -8670,6 +8671,7 @@ const Checkout = (props) => {
   const onLoadWardHandler = (id) => {
     const _huyen = JSON.parse(id)
     console.log("_huyen", _huyen)
+    localStorage.setItem("provine", `${_huyen.data.path_with_type}`)
     const listXa = [];
     for (let i = 0; i < xa.data.nItems; i++) {
       const it = xa.data.data[i]
@@ -8683,6 +8685,11 @@ const Checkout = (props) => {
     }
     setWard(listXa)
   };
+
+  const onSelectWardHandler = (id) => {
+    const xa = JSON.parse(id)
+    localStorage.setItem("provine", `${xa.data.path_with_type}`)
+  }
 
   const onSubmitHandler = (data) => {
 
@@ -8703,13 +8710,13 @@ const Checkout = (props) => {
           const order = {
             fullname: data.name,
             phone: data.phone,
-            address: `${data.address}, ${data.ward}, ${_district.data.path_with_type}`,
+            address: `${data.address}, ${localStorage.getItem("provine")}`,
             email: data.email,
             total: amount,
             note: data.note,
             isPending: false,
             payment: data.payment,
-            accountId: props.user ? props.user.id : -1,
+            accountId:  localStorage.getItem("userid"),
             code: voucher,
             orderDetails: cart.map((item) => ({
               quantity: item.quantity,
@@ -8745,13 +8752,13 @@ const Checkout = (props) => {
       const order = {
         fullname: data.name,
         phone: data.phone,
-        address: `${data.address}, ${data.ward}, ${data.district}, ${data.province}`,
+        address: `${data.address}, ${localStorage.getItem("provine")}`,
         email: data.email,
         total: amount,
         note: data.note,
         isPending: false,
         payment: data.payment,
-        accountId: props.user ? props.user.id : -1,
+        accountId: localStorage.getItem("userid"),
         code: voucher,
         orderDetails: cart.map((item) => ({
           quantity: item.quantity,
@@ -8910,11 +8917,12 @@ const Checkout = (props) => {
                   className="form-control"
                   {...register("ward", { required: true })}
                   required
+                  onChange={(e) => onSelectWardHandler(e.target.value)}
                 >
                   <option selected disabled hidden></option>
                   {ward &&
                     ward.map((item, index) => (
-                      <option value={item.name} key={index}>
+                      <option value={item} key={index}>
                         {item.name}
                       </option>
                     ))}

@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, {useEffect} from "react";
 import Header from "../common/Header";
 import Footer from "../common/Footer";
-import { Switch, Route } from "react-router-dom";
+import {Switch, Route} from "react-router-dom";
 import Home from "../components/Home";
 import ProductDetail from "../components/ProductDetail";
 import Cart from "../components/Cart";
@@ -9,11 +9,11 @@ import Checkout from "../components/Checkout";
 import Order from "../components/Order";
 import OrderDetail from "../components/OrderDetail";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
+import {ToastContainer} from "react-toastify";
 import Product from "../components/Product";
-import { Button, Form } from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-import { useState } from "react";
+import {useState} from "react";
 import OutStock from "../components/OutStock";
 import Error from "../components/Error";
 import Paypal from "../components/Paypal";
@@ -25,6 +25,7 @@ import Chat from "../components/chat/Chat";
 import ForgotPassword from "../authenticate/ForgotPassword";
 import Profile from "../authenticate/Profile";
 import Voucher from "../components/Voucher";
+import Bill from "../components/Bill";
 
 const UserLayOut = () => {
   const [show, setShow] = useState(false);
@@ -94,7 +95,7 @@ const UserLayOut = () => {
       setCartItem(
         cartItem.map((item) =>
           item.id === data.id
-            ? { ...res, quantity: res.quantity + data.quantity }
+            ? {...res, quantity: res.quantity + data.quantity}
             : item
         )
       );
@@ -131,6 +132,9 @@ const UserLayOut = () => {
       <Switch>
         <Route path="/" exact>
           <Home changeHeaderHandler={changeHeaderHandler} user={user}></Home>
+        </Route>
+        <Route path="/don-hang" exact>
+          <Bill/>
         </Route>
         <Route path="/store" exact>
           <Product
