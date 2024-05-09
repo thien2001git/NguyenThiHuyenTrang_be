@@ -84,4 +84,9 @@ public class AttributeServiceImpl implements AttributeService {
         }
         return Boolean.TRUE;
     }
+
+    @Override
+    public void delete(Attribute attribute) {
+        attributeRepo.delete(attribute);
+    }
 }

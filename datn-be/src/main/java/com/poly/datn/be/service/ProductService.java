@@ -25,4 +25,6 @@ public interface ProductService {
     Page<ResponseProductDto> relateProduct(Long id, Long brand, Pageable pageable);
     ResponseProductDto getProductDetail(Long id);
     List<MyResponseProductDto> getAll();
+
+    void delete(Product product);
 }

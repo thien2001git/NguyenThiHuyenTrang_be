@@ -85,6 +85,13 @@ public class ProductApi {
     public ResponseEntity<?> createProduct(@RequestBody ReqProductDto reqProductDto) {
         return new ResponseEntity<>(productService.create(reqProductDto), HttpStatus.OK);
     }
+
+    @PostMapping(ProductConst.API_PRODUCT_DELETE)
+    public ResponseEntity<?> deleteProduct(@RequestBody Product product) {
+        productService.delete(product);
+        return new ResponseEntity<>("ok", HttpStatus.OK);
+    }
+
     @PostMapping(ProductConst.API_PRODUCT_MODIFY)
     public ResponseEntity<?> modifyProduct(@RequestBody ReqUpdateProductDto reqUpdateProductDto) {
         return new ResponseEntity<>(productService.modify(reqUpdateProductDto), HttpStatus.OK);

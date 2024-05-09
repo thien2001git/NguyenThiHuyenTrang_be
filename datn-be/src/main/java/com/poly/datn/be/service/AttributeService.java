@@ -14,4 +14,6 @@ public interface AttributeService {
     Attribute save(Attribute attribute);
     Attribute getByProductIdAndSize(Long productId, Integer size);
     Boolean isValidCart(Long id, Integer quantity);
+
+    void delete(Attribute attribute);
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-import { getAllProductsByBrand } from "../../api/ProductApi";
+import { getAllProductsByBrand, deleteProduct } from "../../api/ProductApi";
 import { NavLink } from "react-router-dom";
 import { getBrands } from "../../api/BrandApi";
 
@@ -31,6 +31,12 @@ const Product = () => {
   const onChangePage = (page) => {
     setPage(page);
   };
+
+  const handleDelete = (event, item) => {
+    deleteProduct({id: item.id}).then((res) => {
+      console.log("deleteProduct", res)
+    })
+  }
 
   var rows = new Array(total).fill(0).map((zero, index) => (
     <li
@@ -100,6 +106,7 @@ const Product = () => {
                     <th scope="col">Mô tả</th>
                     <th scope="col">Trạng thái</th>
                     <th scope="col">Cập nhật</th>
+                    <th scope="col">Xóa</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -131,6 +138,9 @@ const Product = () => {
                               aria-hidden="true"
                             ></i>
                           </NavLink>
+                        </th>
+                        <th>
+                          <button className={"btn btn-danger"} onClick={(event) => handleDelete(event, item)}>Xóa</button>
                         </th>
                       </tr>
                     ))}
