@@ -27,6 +27,7 @@ import javax.transaction.Transactional;
 import java.time.Clock;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -37,6 +38,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     @Lazy
     ProductService productService;
+
+    @Autowired
+    ProductCategoryRepo productCategoryRepo;
+
     @Override
     public Page<Category> findAll(Pageable pageable) {
         return categoryRepo.findAll(pageable);
@@ -54,8 +59,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     ObjectMapper objectMapper;
-    @Autowired
-    ProductCategoryRepo productCategoryRepo;
+
     @Override
     public Category saveCategory(Category category) {
         category.setCreateDate(LocalDate.now());
@@ -114,5 +118,20 @@ public class CategoryServiceImpl implements CategoryService {
         } catch (Exception e) {
             throw new AppException(CategoryConst.FALSE);
         }
+    }
+
+    @Override
+    public Object delete(Category category) {
+        List<ProductCategory> productCategoryList = productCategoryRepo.findAll();
+
+        for (ProductCategory productCategory: productCategoryList) {
+            if (Objects.equals(productCategory.getCategory().getId(), category.getId())) {
+                productService.delete(productCategory.getProduct());
+                productCategoryRepo.delete(productCategory);
+            }
+        }
+
+        categoryRepo.delete(category);
+        return null;
     }
 }

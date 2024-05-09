@@ -35,6 +35,7 @@ const Product = () => {
   const handleDelete = (event, item) => {
     deleteProduct({id: item.id}).then((res) => {
       console.log("deleteProduct", res)
+      onLoad()
     })
   }
 

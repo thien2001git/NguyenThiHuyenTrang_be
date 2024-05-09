@@ -17,4 +17,6 @@ public interface CategoryService {
     Category updateCategory(Category category);
     Category deleteCategory(ReqCategoryDto categoryDto);
     ProductCategory createProductCate(ReqCategoryProductDto productDto);
+
+    Object delete(Category category);
 }
