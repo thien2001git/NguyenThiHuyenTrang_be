@@ -24,6 +24,7 @@ import Blog from "../components/blog/Blog";
 import Chat from "../components/chat/Chat";
 import ForgotPassword from "../authenticate/ForgotPassword";
 import Profile from "../authenticate/Profile";
+import Voucher from "../components/Voucher";
 
 const UserLayOut = () => {
   const [show, setShow] = useState(false);
@@ -202,6 +203,9 @@ const UserLayOut = () => {
         </Route>
         <Route path="/blog" exact>
           <Blog changeHeaderHandler={changeHeaderHandler}></Blog>
+        </Route>
+        <Route path="/voucher" exact>
+          <Voucher/>
         </Route>
         <Route path="/sign-in" exact>
           <SignIn userHandler={userHandler}></SignIn>

@@ -127,6 +127,17 @@ const Header = (props) => {
                   Chính sách
                 </NavLink>
               </li>
+
+              <li className={
+                props.header === 4
+                  ? "nav-item mr-2 active"
+                  : "nav-item mr-2"
+              }>
+                <NavLink className="nav-link" to="/voucher" exact>
+                  Voucher
+                </NavLink>
+              </li>
+
               {props.user && (
                 <li
                   className={
