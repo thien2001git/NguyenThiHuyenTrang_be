@@ -79,9 +79,11 @@ public class OrderServiceImpl implements OrderService {
                 orderDetailService.createOrderDetail(o);
                 if (reqOrderDto.getAccountId() != -1) {
                     CartItem c = cartItemService.findCartItemByAccountIdAndAttributeId(account.getId(), o.getAttribute().getId());
-                    c.setQuantity(CartItemConst.CART_ITEM_QUANTITY_WAITING);
-                    c.setIsActive(CartItemConst.CART_ITEM_INACTIVE);
-                    cartItemService.saveCartItem(c);
+                    if (c != null) {
+                        c.setQuantity(CartItemConst.CART_ITEM_QUANTITY_WAITING);
+                        c.setIsActive(CartItemConst.CART_ITEM_INACTIVE);
+                        cartItemService.saveCartItem(c);
+                    }
                 }
             }
         }

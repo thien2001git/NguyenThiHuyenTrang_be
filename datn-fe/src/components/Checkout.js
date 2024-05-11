@@ -8987,25 +8987,6 @@ const Checkout = (props) => {
                   </div>
                 )}
               </div>
-              <div className="col-sm-6 mt-2">
-                <label htmlFor="lastName" className="form-label">
-                  <strong> Email</strong>
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="lastName"
-                  {...register("email", {
-                    required: true,
-                    pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  })}
-                />
-                {errors.email && (
-                  <div className="alert alert-danger" role="alert">
-                    Email không hợp lệ!
-                  </div>
-                )}
-              </div>
               <div className="col-12 mt-2">
                 <label htmlFor="address" className="form-label">
                   <strong>Ghi chú</strong>

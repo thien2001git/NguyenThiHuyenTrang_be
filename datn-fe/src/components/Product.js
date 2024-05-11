@@ -52,18 +52,6 @@ const brands = [
     display_name: "ADIDAS",
     value: "4",
   },
-  {
-    display_name: "FILA",
-    value: "5",
-  },
-  {
-    display_name: "CONVERSE",
-    value: "6",
-  },
-  {
-    display_name: "LI-NING",
-    value: "7",
-  },
 ];
 
 const prices = [
