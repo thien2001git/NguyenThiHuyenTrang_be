@@ -8753,7 +8753,7 @@ const Checkout = (props) => {
         fullname: data.name,
         phone: data.phone,
         address: `${data.address}, ${localStorage.getItem("provine")}`,
-        email: data.email,
+        email: "a@a.com",
         total: amount,
         note: data.note,
         isPending: false,
