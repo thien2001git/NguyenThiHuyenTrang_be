@@ -371,7 +371,7 @@ const Order = () => {
 
   const refreshHandler = () => {
     refesh().then((res) => {
-      console.log(res.data)
+      onLoad()
     })
   }
 

@@ -1,4 +1,5 @@
 import Instance from '../axios/Instance'
+import data from "bootstrap/js/src/dom/data";
 
 export const createOrder = (data) =>{
     const url = `/api/site/order/create`;

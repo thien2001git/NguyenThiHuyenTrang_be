@@ -1,7 +1,7 @@
 import React from "react";
 import {getAllOrder} from "../api/OrderApi";
 import {NavLink} from "react-router-dom";
-import {Badge} from "@mui/material";
+import {cancelOrder} from "../api/OrderApi"
 
 const pendingStatus = {
   true: "success",
@@ -57,11 +57,25 @@ export default class Bill extends React.Component {
     }
   }
 
+  cancelBill(item) {
+    cancelOrder(item).then((res) => {
+      this.update(1)
+    })
+  }
+
   render() {
     var ret = <></>
     if (this.state !== undefined) {
       const {bill1, bill2, bill3, bill4, bill5} = this.state
-      const show = (item) => {
+      const show = (item, removable = false) => {
+        let removableCol = ""
+        let removableTh = (item) => <></>
+        if (removable) {
+          removableCol = <th scope="col">Hủy</th>
+          removableTh = (item) => <th>
+            <button className={"btn btn-danger"} onClick={this.cancelBill.bind(this, item)}>Hủy</button>
+          </th>
+        }
         return (
           <>
             {item && (
@@ -74,7 +88,7 @@ export default class Bill extends React.Component {
                       <th scope="col">Ngày mua</th>
                       <th scope="col">Thanh toán</th>
                       <th scope="col">Tổng tiền</th>
-
+                      {removableCol}
                     </tr>
                     </thead>
                     <tbody>
@@ -87,7 +101,7 @@ export default class Bill extends React.Component {
                             </NavLink>
                           </th>
                           <th>{item.createDate}</th>
-                          <th style={{color: item.isPending ? "green": "red"}}>
+                          <th style={{color: item.isPending ? "green" : "red"}}>
                             {
                               item.isPending
                                 ? "Đã thanh toán"
@@ -95,6 +109,7 @@ export default class Bill extends React.Component {
                             }
                           </th>
                           <th> {item.total.toLocaleString()} ₫</th>
+                          {!item.isPending && removableTh(item)}
                         </tr>
                       ))}
                     </tbody>
@@ -108,7 +123,7 @@ export default class Bill extends React.Component {
 
       ret = <>
         <h2>Đơn hàng tạo mới</h2>
-        {show(bill1)}
+        {show(bill1, true)}
         <h2>Đơn hàng đang được xử lí</h2>
         {show(bill2)}
         <h2>Đơn hàng đang vận chuyển</h2>
