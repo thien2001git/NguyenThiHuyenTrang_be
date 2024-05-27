@@ -11,6 +11,7 @@ import com.poly.datn.be.domain.model.AmountYear;
 import com.poly.datn.be.domain.model.CountOrder;
 import com.poly.datn.be.domain.model.ReportProduct;
 import com.poly.datn.be.entity.*;
+import com.poly.datn.be.repo.NotificationRepo;
 import com.poly.datn.be.repo.OrderRepo;
 import com.poly.datn.be.service.*;
 import com.poly.datn.be.util.ConvertUtil;
@@ -43,6 +44,26 @@ public class OrderServiceImpl implements OrderService {
     VoucherService voucherService;
     @Autowired
     NotificationService notificationService;
+    @Autowired
+    NotificationRepo notificationRepo;
+
+
+    @Override
+    public void refresh() {
+        List<Order> orderList = orderRepo.findAll();
+        List<Notification> notificationList = notificationRepo.findAll();
+        for (Order order : orderList) {
+            List<OrderDetail> orderDetailList = orderDetailService.getAllByOrderId(order.getId());
+            if (orderDetailList.isEmpty()) {
+                for (Notification notification : notificationList) {
+                    if (notification.getOrder() != null && Objects.equals(notification.getOrder().getId(), order.getId())) {
+                        notificationRepo.delete(notification);
+                    }
+                }
+                orderRepo.delete(order);
+            }
+        }
+    }
 
     @Override
     @Transactional
@@ -244,7 +265,7 @@ public class OrderServiceImpl implements OrderService {
             attributeService.save(attribute);
         }
         Voucher voucher = order.getVoucher();
-        if(voucher != null){
+        if (voucher != null) {
             voucher.setCount(new Integer(1));
             voucher.setIsActive(Boolean.TRUE);
             voucherService.saveVoucher(voucher);
@@ -382,31 +403,31 @@ public class OrderServiceImpl implements OrderService {
                 attributeService.save(attribute);
             }
             Voucher v = order.getVoucher();
-            if(v != null){
+            if (v != null) {
                 v.setIsActive(Boolean.FALSE);
                 voucherService.saveVoucher(v);
             }
-           if(order.getTotal() > 1000000){
-               Voucher voucher = new Voucher();
-               voucher.setCode(generateCode());
-               voucher.setIsActive(Boolean.TRUE);
-               voucher.setCreateDate(LocalDate.now());
-               voucher.setCount(new Integer(1));
-               voucher.setExpireDate(LocalDate.now().plusYears(1));
-               if (order.getTotal() >= 3000000) {
-                   voucher.setDiscount(new Integer(30));
-               } else if (order.getTotal() >= 2000000) {
-                   voucher.setDiscount(new Integer(20));
-               } else {
-                   voucher.setDiscount(new Integer(10));
-               }
-               voucher = voucherService.saveVoucher(voucher);
-               try {
-                   MailUtil.sendEmail(voucher, order);
-               } catch (MessagingException e) {
-                   System.out.println("Can't send an email.");
-               }
-           }
+            if (order.getTotal() > 1000000) {
+                Voucher voucher = new Voucher();
+                voucher.setCode(generateCode());
+                voucher.setIsActive(Boolean.TRUE);
+                voucher.setCreateDate(LocalDate.now());
+                voucher.setCount(new Integer(1));
+                voucher.setExpireDate(LocalDate.now().plusYears(1));
+                if (order.getTotal() >= 3000000) {
+                    voucher.setDiscount(new Integer(30));
+                } else if (order.getTotal() >= 2000000) {
+                    voucher.setDiscount(new Integer(20));
+                } else {
+                    voucher.setDiscount(new Integer(10));
+                }
+                voucher = voucherService.saveVoucher(voucher);
+                try {
+                    MailUtil.sendEmail(voucher, order);
+                } catch (MessagingException e) {
+                    System.out.println("Can't send an email.");
+                }
+            }
             return orderRepo.save(order);
         } else if (flag.equals(OrderStatusConst.ORDER_STATUS_SUCCESS)) {
             throw new AppException(OrderStatusConst.ORDER_STATUS_SUCCESS_MESSAGE);
@@ -437,7 +458,7 @@ public class OrderServiceImpl implements OrderService {
                 attributeService.save(attribute);
             }
             Voucher voucher = order.getVoucher();
-            if(voucher != null){
+            if (voucher != null) {
                 voucher.setCount(new Integer(1));
                 voucher.setIsActive(Boolean.TRUE);
                 voucherService.saveVoucher(voucher);

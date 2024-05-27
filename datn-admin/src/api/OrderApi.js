@@ -96,3 +96,8 @@ export const updateCancel = (data) =>{
     const url = `/api/site/order/cancel-order`;
     return Instance.post(url, data);
 }
+
+export const refesh = () => {
+  const url = `/api/site/order/refresh`;
+  return Instance.post(url);
+}

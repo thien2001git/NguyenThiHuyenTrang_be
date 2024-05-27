@@ -10,6 +10,7 @@ import {
   updateProcess,
   updateShip,
   updateSuccess,
+  refesh,
 } from "../../api/OrderApi";
 import "../table/table.css";
 import Badge from "../badge/Badge";
@@ -368,6 +369,12 @@ const Order = () => {
     setFlagProcess(checked);
   };
 
+  const refreshHandler = () => {
+    refesh().then((res) => {
+      console.log(res.data)
+    })
+  }
+
   const flagSuccessHandler = (e) => {
     const { checked } = e.target;
     setFlagSuccess(checked);
@@ -376,7 +383,7 @@ const Order = () => {
     <div className="col-12">
       <div className="card">
         <div className="card__header">
-          <h3>Đơn hàng</h3>
+          <h3>Đơn hàng <button className={"btn btn-outline-info"} onClick={() => refreshHandler()}>Refresh</button></h3>
         </div>
         <div className="row">
           <div className="col-sm-3 mt-2">

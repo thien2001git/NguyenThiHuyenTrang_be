@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface OrderService {
+    void refresh();
     Order createOrder(ReqOrderDto reqOrderDto) ;
     Page<Order> getOrderByAccount(Long id, Pageable pageable);
     Order getByOrderId(Long id);

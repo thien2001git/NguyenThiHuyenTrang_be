@@ -150,4 +150,10 @@ public class OrderApi {
     public ResponseEntity<?> cancelOrder(@RequestBody ReqUpdateStatusOrder reqUpdateStatusOrder){
         return new ResponseEntity<>(orderService.cancelOrder(reqUpdateStatusOrder), HttpStatus.OK);
     }
+
+    @PostMapping(OrderConst.API_REFRESH)
+    public ResponseEntity<?> refresh() {
+        orderService.refresh();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

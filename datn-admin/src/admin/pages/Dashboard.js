@@ -134,45 +134,6 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className="col-6">
-          <div className="card">
-            <div className="card__header">
-              <h3 className="text-primary">Doanh thu theo Năm</h3>
-            </div>
-            <div className="card__body">
-              <table className="table table-bordered">
-                <thead>
-                  <tr>
-                    <th scope="col">STT</th>
-                    <th scope="col">Năm</th>
-                    <th scope="col">Số lượng đơn</th>
-                    <th scope="col">Doanh thu</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {year &&
-                    year.map((item, index) => (
-                      <tr key={index}>
-                        <th scope="row">
-                          <NavLink exact to={`/report-month/${item.year}`}>
-                            {index + 1}
-                          </NavLink>
-                        </th>
-                        <td>{item.year}</td>
-                        <td>{item.count}</td>
-                        <td>{item.total && item.total.toLocaleString()} đ</td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-            </div>
-            <div className="card__footer">
-              <NavLink exact to={`/report-month/2022`}>
-                Xem chi tiết
-              </NavLink>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );
